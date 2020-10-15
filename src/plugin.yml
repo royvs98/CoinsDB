@@ -1,0 +1,10 @@
+name: Coins
+version: 1.0.0
+main: me.mrroyalit.coins.Main
+author: MrRoyalit
+description: This is a coin plugin
+softdepend: [PlaceholderAPI]
+
+commands:
+ coins:
+  description: This is the main Coin command
