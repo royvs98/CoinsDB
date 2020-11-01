@@ -3,5 +3,3 @@ port: 3306
 database: coins
 username: root
 password: password
-autoReconnect: true
-maxReconnects: 4
