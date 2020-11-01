@@ -74,12 +74,7 @@ public class Main extends JavaPlugin implements Listener{
         connProperties.put(DATABASE_PASSWORD, password);
         connProperties.put(MYSQL_AUTO_RECONNECT, autorec);
         connProperties.put(MYSQL_MAX_RECONNECTS, maxrec);
-
-        try{
-			connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, connProperties);
-		}catch(SQLException e){
-        	e.printStackTrace();
-		}
+        connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, connProperties);
 	}
 
 	public static PreparedStatement prepareStatement(String query) {
