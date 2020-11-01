@@ -44,27 +44,41 @@ public class Main extends JavaPlugin implements Listener{
 	}
 
 	private static Connection connection;
+	private int scheduler;
 	private String host, database, username, password;
 	private int port;
+	public static final String DATABASE_USER = "user";
+    public static final String DATABASE_PASSWORD = "password";
+    public static final String MYSQL_AUTO_RECONNECT = "autoReconnect";
+    public static final String MYSQL_MAX_RECONNECTS = "maxReconnects";
 	
 	public void databaseConnection() throws SQLException {
 		
 		// Hier haal je de gegevens op van de config en maak je verbinding naar de database
-		
+
 		host = getConfig().getString("host");
 		port = getConfig().getInt("port");
 		database = getConfig().getString("database");
 		username = getConfig().getString("username");
 		password = getConfig().getString("password");
-		
-		if(connection != null && !connection.isClosed()) {
-			return;
+
+        if ((connection != null) && (!connection.isClosed())) {
+            return;
+        }
+        java.util.Properties connProperties = new java.util.Properties();
+
+        connProperties.put(DATABASE_USER, username);
+        connProperties.put(DATABASE_PASSWORD, password);
+        connProperties.put(MYSQL_AUTO_RECONNECT, "true");
+        connProperties.put(MYSQL_MAX_RECONNECTS, "4");
+
+        try{
+			connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, connProperties);
+		}catch(SQLException e){
+        	e.printStackTrace();
 		}
-		
-		connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, username, password);
-		
 	}
-	
+
 	public static PreparedStatement prepareStatement(String query) {
 		PreparedStatement ps = null;
 		

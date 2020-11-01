@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="CoinsDB">
+    <output-path>$PROJECT_DIR$/../../Documents/Minecraft Plugins</output-path>
+    <root id="archive" name="CoinsDB.jar">
+      <element id="module-output" name="CoinsDB" />
+    </root>
+  </artifact>
+</component>
