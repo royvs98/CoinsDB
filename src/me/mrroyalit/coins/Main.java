@@ -19,6 +19,7 @@ import me.mrroyalit.coins.events.OnJoinEvent;
 import me.mrroyalit.coins.events.OnMobKillEvent;
 import me.mrroyalit.coins.managers.CurrencyManager;
 import me.mrroyalit.coins.placeholder.Placeholder;
+import org.bukkit.scheduler.BukkitScheduler;
 
 public class Main extends JavaPlugin implements Listener{
 
@@ -64,6 +65,7 @@ public class Main extends JavaPlugin implements Listener{
 		maxrec = getConfig().getString("maxReconnects");
 
         if ((connection != null) && (!connection.isClosed())) {
+        	checkCon();
             return;
         }
         java.util.Properties connProperties = new java.util.Properties();
@@ -73,7 +75,23 @@ public class Main extends JavaPlugin implements Listener{
         connProperties.put(MYSQL_AUTO_RECONNECT, autorec);
         connProperties.put(MYSQL_MAX_RECONNECTS, maxrec);
 
+
+        
         connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, connProperties);
+	}
+
+	private void checkCon() {
+		BukkitScheduler scheduler = getServer().getScheduler();
+		scheduler.scheduleSyncRepeatingTask(this, new Runnable() {
+			@Override
+			public void run() {
+				try {
+					ResultSet rs = Main.prepareStatement("SELECT COUNT(*) FROM 'player_data'").executeQuery();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}, 1L, (long) 300 * 20);
 	}
 
 	public static PreparedStatement prepareStatement(String query) {
