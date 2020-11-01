@@ -44,7 +44,7 @@ public class Main extends JavaPlugin implements Listener{
 	}
 
 	private static Connection connection;
-	private String host, database, username, password;
+	private String host, database, username, password, autorec, maxrec;
 	private int port;
 	public static final String DATABASE_USER = "user";
     public static final String DATABASE_PASSWORD = "password";
@@ -60,6 +60,8 @@ public class Main extends JavaPlugin implements Listener{
 		database = getConfig().getString("database");
 		username = getConfig().getString("username");
 		password = getConfig().getString("password");
+		autorec = getConfig().getString("autoReconnect");
+		maxrec = getConfig().getString("maxReconnects");
 
         if ((connection != null) && (!connection.isClosed())) {
             return;
@@ -68,8 +70,9 @@ public class Main extends JavaPlugin implements Listener{
 
         connProperties.put(DATABASE_USER, username);
         connProperties.put(DATABASE_PASSWORD, password);
-        connProperties.put(MYSQL_AUTO_RECONNECT, true);
-        connProperties.put(MYSQL_MAX_RECONNECTS, 4);
+        connProperties.put(MYSQL_AUTO_RECONNECT, autorec);
+        connProperties.put(MYSQL_MAX_RECONNECTS, maxrec);
+
         connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, connProperties);
 	}
 
@@ -133,6 +136,8 @@ public class Main extends JavaPlugin implements Listener{
 		getConfig().addDefault("database", "coins");
 		getConfig().addDefault("username", "root");
 		getConfig().addDefault("password", "");
+		getConfig().addDefault("autoReconnect", "true");
+		getConfig().addDefault("maxReconnects", "4");
 		getConfig().options().copyDefaults(true);
 		saveConfig();
 	  }
