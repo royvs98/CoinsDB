@@ -87,6 +87,7 @@ public class Main extends JavaPlugin implements Listener{
 			public void run() {
 				try {
 					ResultSet rs = Main.prepareStatement("SELECT COUNT(*) FROM 'player_data'").executeQuery();
+					rs.next();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
