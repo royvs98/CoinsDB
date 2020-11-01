@@ -34,6 +34,7 @@ public class Main extends JavaPlugin implements Listener{
 		registerManagers();
 		registerCommands();
 		registerListeners();
+		checkCon();
 		
 		try {
 			databaseConnection();
@@ -65,7 +66,6 @@ public class Main extends JavaPlugin implements Listener{
 		maxrec = getConfig().getString("maxReconnects");
 
         if ((connection != null) && (!connection.isClosed())) {
-        	checkCon();
             return;
         }
         java.util.Properties connProperties = new java.util.Properties();
@@ -80,7 +80,7 @@ public class Main extends JavaPlugin implements Listener{
         connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, connProperties);
 	}
 
-	private void checkCon() {
+	public void checkCon() {
 		BukkitScheduler scheduler = getServer().getScheduler();
 		scheduler.scheduleSyncRepeatingTask(this, new Runnable() {
 			@Override
