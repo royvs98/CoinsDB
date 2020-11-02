@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import me.mrroyalit.coins.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -38,7 +39,7 @@ public class Main extends JavaPlugin implements Listener{
 		
 		try {
 			databaseConnection();
-			System.out.println("Connected to the database!");
+			System.out.println("[Coins] Connected to the database!");
 			createTable();
 		} catch(SQLException e) {
 			e.printStackTrace();
@@ -86,8 +87,9 @@ public class Main extends JavaPlugin implements Listener{
 			@Override
 			public void run() {
 				try {
-					ResultSet rs = Main.prepareStatement("SELECT COUNT(*) FROM 'player_data'").executeQuery();
+					ResultSet rs = Main.prepareStatement("SELECT COUNT(UUID) FROM player_data;").executeQuery();
 					rs.next();
+					System.out.println("[Coins] Database still connected!");
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}

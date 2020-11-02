@@ -98,23 +98,29 @@ public class CurrencyManager {
 		Player p = Bukkit.getPlayer(sender);
 		
 		try {
-			ResultSet rs = Main.prepareStatement("SELECT * FROM player_data;").executeQuery();
+			ResultSet rs = Main.prepareStatement("SELECT * FROM player_data ORDER BY Coins DESC LIMIT 10;").executeQuery();
 			
 			while(rs.next()) {
 				String uuid = rs.getString("UUID");
 				String url = "https://api.mojang.com/user/profiles/"+uuid.replace("-", "")+"/names";
+				int i = 1;
+
 		        try {
 		            @SuppressWarnings("deprecation")
 		            String nameJson = IOUtils.toString(new URL(url));           
 		            JSONArray nameValue = (JSONArray) JSONValue.parseWithException(nameJson);
 		            String playerSlot = nameValue.get(nameValue.size()-1).toString();
 		            JSONObject nameObject = (JSONObject) JSONValue.parseWithException(playerSlot);
-		            
+
+
+
 					int coins = rs.getInt("COINS");
 					if(coins == 1) {
-						p.sendMessage(Utils.chat("&a" + nameObject.get("name").toString() + ": &6" + coins + " &acoin"));
+						p.sendMessage(Utils.chat("&a" + i + ". " + nameObject.get("name").toString() + ": &6" + coins + " &acoin"));
+						i++;
 					}else {
-						p.sendMessage(Utils.chat("&a" + nameObject.get("name").toString() + ": &6" + coins + " &acoins"));
+						p.sendMessage(Utils.chat("&a" + i + ". " + nameObject.get("name").toString() + ": &6" + coins + " &acoins"));
+						i++;
 					}
 		        } catch (IOException e) {
 		            e.printStackTrace();
