@@ -103,7 +103,6 @@ public class CurrencyManager {
 			while(rs.next()) {
 				String uuid = rs.getString("UUID");
 				String url = "https://api.mojang.com/user/profiles/"+uuid.replace("-", "")+"/names";
-				int i = 1;
 
 		        try {
 		            @SuppressWarnings("deprecation")
@@ -116,11 +115,9 @@ public class CurrencyManager {
 
 					int coins = rs.getInt("COINS");
 					if(coins == 1) {
-						p.sendMessage(Utils.chat("&a" + i + ". " + nameObject.get("name").toString() + ": &6" + coins + " &acoin"));
-						i++;
+						p.sendMessage(Utils.chat("&a" + nameObject.get("name").toString() + ": &6" + coins + " &acoin"));
 					}else {
-						p.sendMessage(Utils.chat("&a" + i + ". " + nameObject.get("name").toString() + ": &6" + coins + " &acoins"));
-						i++;
+						p.sendMessage(Utils.chat("&a" + nameObject.get("name").toString() + ": &6" + coins + " &acoins"));
 					}
 		        } catch (IOException e) {
 		            e.printStackTrace();
